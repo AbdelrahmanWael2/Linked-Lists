@@ -131,7 +131,7 @@ public class SingleLinkedList implements ILinkedList {
         else{error = true;}
         
     }
-
+//hi
     public void add(Object element){
         node n = new node(element,null);
         node temp = new node();
