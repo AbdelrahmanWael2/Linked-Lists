@@ -108,11 +108,14 @@ public class SingleLinkedList implements ILinkedList {
         node temp2 = new node();
         
         if(index == 0){
-            temp.setElement(head.getElement());
-            temp.setNext(head.getNext());
-            n.setNext(temp);
-            head=n;
-            size++;
+            if(size == 0){add(element);}
+            else{
+                temp.setElement(head.getElement());
+                temp.setNext(head.getNext());
+                n.setNext(temp);
+                head=n;
+                size++;
+            }
         }
 
         else if(index == size){
@@ -165,8 +168,7 @@ public class SingleLinkedList implements ILinkedList {
 
     public void set(int index, Object element){
         node n = new node();
-        if(index==size){this.add(element);}
-        else if(index >= 0 && index < size){
+        if(index >= 0 && index < size){
             n=head;
             for(int i = 0; i< index ; i++){
                 n= n.getNext();
@@ -188,10 +190,11 @@ public class SingleLinkedList implements ILinkedList {
     public void remove(int index){
         node n, temp = new node();
         n = head;
-        if(index == 0){
+        if(size == 0){error = true;}
+        else if(index == 0){
                 head = head.getNext();
         }
-        else if(index > 0 && index < size-1){
+        else if(index > 0 && index < size){
             for(int i = 0 ; i < index-1; i++){
                 n=n.getNext();
             }
@@ -199,12 +202,9 @@ public class SingleLinkedList implements ILinkedList {
             n.setNext(temp.getNext());
         }
         else{error = true;}
-
     }
 
     public int size(){return size;}
-
-
 
     public SingleLinkedList sublist(int fromIndex, int toIndex){
         SingleLinkedList li = new SingleLinkedList();
@@ -220,8 +220,6 @@ public class SingleLinkedList implements ILinkedList {
         }
         return li; 
     }
-    
-    
 
     public boolean contains(Object o){
 
@@ -234,8 +232,6 @@ public class SingleLinkedList implements ILinkedList {
         return false;
         
     }
-        
-    
 
     public void display(){
         System.out.print("[");
