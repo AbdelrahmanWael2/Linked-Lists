@@ -3,7 +3,65 @@ import java.util.*;
 import java.text.*;
 import java.math.*;
 import java.util.regex.*;
-public class SingleLinkedList{
+
+interface ILinkedList {
+/**
+* Inserts a specified element at the specified position in the list.
+* @param index
+* @param element
+*/
+public void add(int index, Object element);
+/**
+* Inserts the specified element at the end of the list.
+* @param element
+*/
+public void add(Object element);
+/**
+* @param index
+* @return the element at the specified position in this list.
+*/
+public Object get(int index);
+
+/**
+* Replaces the element at the specified position in this list with the
+* specified element.
+* @param index
+* @param element
+*/
+public void set(int index, Object element);
+/**
+* Removes all of the elements from this list.
+*/
+public void clear();
+/**
+* @return true if this list contains no elements.
+*/
+public boolean isEmpty();
+/**
+* Removes the element at the specified position in this list.
+* @param index
+*/
+public void remove(int index);
+/**
+* @return the number of elements in this list.
+*/
+public int size();
+/**
+* @param fromIndex
+* @param toIndex
+* @return a view of the portion of this list between the specified fromIndex and toIndex, inclusively.
+*/
+public ILinkedList sublist(int fromIndex, int toIndex);
+/**
+* @param o
+* @return true if this list contains an element with the same value as the specified element.
+*/
+public boolean contains(Object o);
+}
+
+
+public class SingleLinkedList implements ILinkedList {
+    /* Implement your linked list class here*/
     class node {
         private Object element; 
         private node next;
@@ -37,6 +95,7 @@ public class SingleLinkedList{
 
     private node head;
     private int size;
+    public static boolean error = false;
     
     public SingleLinkedList() {
         head = null;
@@ -47,28 +106,29 @@ public class SingleLinkedList{
         node n = new node(element, null);
         node temp = new node();
         node temp2 = new node();
-        temp = head;
+        
         if(index == 0){
-            n.setNext(head);
+            temp.setElement(head.getElement());
+            temp.setNext(head.getNext());
+            n.setNext(temp);
             head=n;
             size++;
         }
 
-        if(index == size){
+        else if(index == size){
             add(element);
         }
-        else if(index < size){
-            
+        else if(index < size && index > 0){
+            temp = head;
             for(int i = 0 ; i < index-1 ; i++){
                 temp = temp.getNext();    
             }
-            temp2 = temp;
-            temp2 = temp2.getNext();
+            temp2 = temp.getNext();
             temp.setNext(n);
             n.setNext(temp2);
             size++;
         }
-        else{System.out.println("Error");}
+        else{error = true;}
         
     }
 
@@ -91,87 +151,191 @@ public class SingleLinkedList{
         }
     }
 
-
     public Object get(int index){
         node n = new node();
-        if(index > size-1 || index < 0){System.out.println("Error");}
+        if(index > size-1 || index < 0){error = true;}
         else{
-            
             n =  head;
             for(int i = 0 ; i <= index-1 ; i++){
                 n = n.getNext();
-            }
-            
+            }  
         }
-        return n.getElement();
+        return n.getElement(); 
     }
 
     public void set(int index, Object element){
         node n = new node();
-        n=head;
-        for(int i = 0; i< index ; i++){
-            n= n.getNext();
+        if(index >= 0 && index < size){
+            n=head;
+            for(int i = 0; i< index ; i++){
+                n= n.getNext();
+            }
+            n.setElement(element);
         }
-        n.setElement(element);
-
+        else{error = true;}
     }
 
     public void clear(){
-        head.setElement(null);
-        head.setNext(null);
+       head = null;
     }
-
-    public int size(){return size;}
 
     public boolean isEmpty(){
         if(size == 0){return true;}
         else{return false;}
     }
+
+    public void remove(int index){
+        node n, temp = new node();
+        n = head;
+        if(index == 0){
+                head = head.getNext();
+        }
+        else if(index > 0 && index < size-1){
+            for(int i = 0 ; i < index-1; i++){
+                n=n.getNext();
+            }
+            temp = n.getNext();
+            n.setNext(temp.getNext());
+        }
+        else{error = true;}
+
+    }
+
+    public int size(){return size;}
+
+
+
+    public SingleLinkedList sublist(int fromIndex, int toIndex){
+        SingleLinkedList li = new SingleLinkedList();
+        if(fromIndex > toIndex || fromIndex > size-1){error = true;}
+        else{ 
+            node n = new node();
+            n = head;
+            for(int i = 0 ; i < fromIndex ;i++){n = n.getNext();}
+            for(int j = fromIndex ; j <= toIndex ; j++){
+                li.add(n.getElement());
+                n=n.getNext();
+            } 
+        }
+        return li; 
+    }
     
+    
+
+    public boolean contains(Object o){
+        boolean found = false;
+        while(head != null){
+            Object temp = head.getElement();
+            if(temp.equals(o) == true){return true;}
+            head = head.getNext();
+        }
+        return false;
+        
+    }
+        
+    
+
     public void display(){
+        System.out.print("[");
         node n = new node();
         n = head;
         while(n!=null){
-            System.out.println(n.getElement());
+            System.out.print(n.getElement());
+            if(n.getNext() != null){System.out.print(", ");}
             n = n.getNext();
         }
+        System.out.print("]");
     }
-
-    public boolean contains(Object o){
-        node n = new node();
-        n = head;
-        boolean found = false;
-        while(!found && n.getNext() != null){
-            if(n.getElement() == o){found = true;}
-            n = n.getNext();
-        }
-        return found;
-    }
-        
     
-    public static void main(String[] args){
-        SingleLinkedList li = new SingleLinkedList();
-        
-    
-
-
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. */
        Scanner sc = new Scanner(System.in);
        String input = sc.nextLine().replaceAll("\\[|\\]", "");
        String[] s = input.split(", ");
-       int[] inputs = new int[s.length];   //array of input integers
-       for(int i = 0; i < s.length; ++i)
-       {
-            inputs[i] = Integer.parseInt(s[i]);
-       }
+        int[] inputs = new int[s.length];   //array of input integers
        SingleLinkedList list = new SingleLinkedList();
-        for( int i = 0; i < s.length ; i++)
-        {
-            list.add(inputs[i]);
+       if(s.length == 1 && s[0].isEmpty()){
+       inputs = new int[]{};
+       }
+       else{
+            for(int i = 0; i < s.length; ++i)
+            {
+                    inputs[i] = Integer.parseInt(s[i]);
+            }
+       
+       
+            for( int i = 0; i < s.length ; i++)
+            {
+                list.add(inputs[i]);
+            }
+        }
+        String inputfun = sc.nextLine();
+
+        if(inputfun.equals("add")){
+            Object element = sc.next();
+            list.add(element);
+            list.display();
+        }
+
+        if(inputfun.equals("addToIndex")){
+            int index = sc.nextInt();
+            Object element = sc.next();
+            list.add(index, element);
+            if(error){System.out.println("Error");}
+            else{list.display();}
+            
+        }
+
+        if(inputfun.equals("isEmpty")){
+            if(list.isEmpty()){System.out.println("True");}
+            else{System.out.println("False");}
+        }
+
+        if(inputfun.equals("set")){
+            int index = sc.nextInt();
+            Object element = sc.next();
+            list.set(index, element);
+            if(error){System.out.println("Error");}
+            else{list.display();}
+        }
+
+        if(inputfun.equals("get")){
+            int index = sc.nextInt();
+            list.get(index);
+            if(error){System.out.println("Error");}
+            else{System.out.println(list.get(index));}
+        }
+
+        if(inputfun.equals("size")){
+            System.out.println(list.size());
+        }
+
+        if(inputfun.equals("contains")){
+            Object element = sc.next();
+            if(list.contains(element)){
+                System.out.println("True");
+            }
+            else{System.out.println("False");}
+        }
+
+        if(inputfun.equals("clear")){
+            list.clear();
+            list.display();
+        }
+
+        if(inputfun.equals("remove")){
+            int index = sc.nextInt();
+            list.remove(index);
+            if(error){System.out.println("Error");}
+            else{list.display();}
         }
         
-
+        if(inputfun.equals("sublist")){
+            int fromIndex = sc.nextInt();
+            int toIndex = sc.nextInt();
+            list = list.sublist(fromIndex , toIndex);
+            if(error){System.out.println("Error");}
+            else{list.display();}
+        }
     }
-
-
-
 }
