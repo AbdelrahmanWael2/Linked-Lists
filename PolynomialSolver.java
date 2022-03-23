@@ -48,8 +48,8 @@ public class PolynomialSolver {
         pointer = head;
         for(int i = 0 ; i < len ; i++)
         {
-          
-            
+          System.out.print("Hello ahmed");
+
         }
 
         
