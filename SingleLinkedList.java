@@ -223,10 +223,11 @@ public class SingleLinkedList implements ILinkedList {
     
 
     public boolean contains(Object o){
-        boolean found = false;
+
         while(head != null){
-            Object temp = head.getElement();
-            if(temp.equals(o) == true){return true;}
+            String b = o.toString();
+            String a = head.getElement().toString();
+            if(a.equals(b)){return true;}
             head = head.getNext();
         }
         return false;
