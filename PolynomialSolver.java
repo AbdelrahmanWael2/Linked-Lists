@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class PolynomialSolver {
     class node {
         private Object element; 
@@ -44,6 +46,6 @@ public class PolynomialSolver {
 
 
     public static void main(String[] args) {
-
+        Scanner sc = new Scanner(System.in);
     }
 }
