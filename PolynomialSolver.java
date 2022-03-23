@@ -37,6 +37,7 @@ public class PolynomialSolver {
         size = 0;
     } 
     public void setPolynomial(char poly, int[][] terms){
+        System.out.print("Commit 2");
        
     }
 
