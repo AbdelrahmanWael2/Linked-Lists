@@ -45,6 +45,9 @@ public class PolynomialSolver {
     public void setPolynomial(char poly, int[][] terms, int length)
     {
         PolynomialSolver list = new PolynomialSolver();
+        node pointer = new node();
+        
+        pointer = head;
         for(int i = 0 ; i < len ; i++)
         {
           
