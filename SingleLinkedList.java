@@ -131,7 +131,7 @@ public class SingleLinkedList implements ILinkedList {
         else{error = true;}
         
     }
-//hi
+
     public void add(Object element){
         node n = new node(element,null);
         node temp = new node();
@@ -165,7 +165,8 @@ public class SingleLinkedList implements ILinkedList {
 
     public void set(int index, Object element){
         node n = new node();
-        if(index >= 0 && index < size){
+        if(index==size){this.add(element);}
+        else if(index >= 0 && index < size){
             n=head;
             for(int i = 0; i< index ; i++){
                 n= n.getNext();
