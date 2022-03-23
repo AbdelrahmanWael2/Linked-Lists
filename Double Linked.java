@@ -111,7 +111,7 @@ public class DoubleLinkedList implements ILinkedList {
         {
             list.addNode(inputs[i]);
         }
-       
+       System.out.print("Hello");
         /* Enter your code here. Read input from STDIN. Print output to STDOUT */
     }
 }
