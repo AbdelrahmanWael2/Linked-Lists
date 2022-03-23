@@ -275,7 +275,7 @@ public class SingleLinkedList implements ILinkedList {
             list.display();
         }
 
-        if(inputfun.equals("addToIndex")){
+        else if(inputfun.equals("addToIndex")){
             int index = sc.nextInt();
             Object element = sc.next();
             list.add(index, element);
@@ -284,12 +284,12 @@ public class SingleLinkedList implements ILinkedList {
             
         }
 
-        if(inputfun.equals("isEmpty")){
+        else if(inputfun.equals("isEmpty")){
             if(list.isEmpty()){System.out.println("True");}
             else{System.out.println("False");}
         }
 
-        if(inputfun.equals("set")){
+        else if(inputfun.equals("set")){
             int index = sc.nextInt();
             Object element = sc.next();
             list.set(index, element);
@@ -297,18 +297,18 @@ public class SingleLinkedList implements ILinkedList {
             else{list.display();}
         }
 
-        if(inputfun.equals("get")){
+        else if(inputfun.equals("get")){
             int index = sc.nextInt();
             list.get(index);
             if(error){System.out.println("Error");}
             else{System.out.println(list.get(index));}
         }
 
-        if(inputfun.equals("size")){
+        else if(inputfun.equals("size")){
             System.out.println(list.size());
         }
 
-        if(inputfun.equals("contains")){
+        else if(inputfun.equals("contains")){
             Object element = sc.next();
             if(list.contains(element)){
                 System.out.println("True");
@@ -316,24 +316,25 @@ public class SingleLinkedList implements ILinkedList {
             else{System.out.println("False");}
         }
 
-        if(inputfun.equals("clear")){
+        else if(inputfun.equals("clear")){
             list.clear();
             list.display();
         }
 
-        if(inputfun.equals("remove")){
+        else if(inputfun.equals("remove")){
             int index = sc.nextInt();
             list.remove(index);
             if(error){System.out.println("Error");}
             else{list.display();}
         }
         
-        if(inputfun.equals("sublist")){
+        else if(inputfun.equals("sublist")){
             int fromIndex = sc.nextInt();
             int toIndex = sc.nextInt();
             list = list.sublist(fromIndex , toIndex);
             if(error){System.out.println("Error");}
             else{list.display();}
         }
+        else System.out.println("Error");
     }
 }
