@@ -38,8 +38,20 @@ public class PolynomialSolver {
         head = null;
         size = 0;
     } 
-    public void setPolynomial(char poly, int[][] terms){
-        System.out.print("Commit 2");
+
+    public void setPolynomial(char poly, int[][] terms, int length)
+    {
+        PolynomialSolver list = new PolynomialSolver();
+        node pointer = new node();
+        
+        pointer = head;
+        for(int i = 0 ; i < len ; i++)
+        {
+          System.out.print("Hello ahmed");
+
+        }
+
+        
        
     }
     
@@ -61,7 +73,7 @@ public class PolynomialSolver {
             set();
         }
         else if(operation2.equals("print")){
-            
+
         }
     
     }
