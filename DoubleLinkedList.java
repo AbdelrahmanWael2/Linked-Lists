@@ -231,7 +231,7 @@ public class DoubleLinkedList implements ILinkedList {
 
         public DoubleLinkedList sublist(int fromIndex, int toIndex){
             DoubleLinkedList li = new DoubleLinkedList();
-            if(fromIndex > toIndex || fromIndex > size-1 || toIndex > size-1){error = true;}
+            if(fromIndex > toIndex || fromIndex > size-1 || toIndex > size-1 || fromIndex < 0 || toIndex < 0){error = true;}
             else{ 
                 node n = new node();
                 n = head;

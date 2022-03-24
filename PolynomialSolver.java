@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
-public class PolynomialSolver {
+
+interface IPolynomialSolver {
+    public void setPolynomial(char poly , int[][] terms, int len);
+}
+public class PolynomialSolver implements IPolynomialSolver{
     class node {
         private Object element; 
         private node next;
@@ -15,11 +19,13 @@ public class PolynomialSolver {
             this.next = next;
         }
         
+        
         public void setNext(node nextNode){
             this.next = nextNode;
         }
         
-        public void setElement(Object newElement){
+        
+        public void setElement(String newElement){
             this.element = newElement;
         }
         
@@ -32,48 +38,60 @@ public class PolynomialSolver {
         } 
     }
     private node head;
-    private int size;
+    public static int size;
     public static boolean error = false;
     public PolynomialSolver() {
         head = null;
         size = 0;
     } 
 
-    public void setPolynomial(char poly, int[][] terms, int length)
-    {
-        PolynomialSolver list = new PolynomialSolver();
-        node pointer = new node();
-        
-        pointer = head;
-        for(int i = 0 ; i < len ; i++)
-        {
-          System.out.print("Hello ahmed");
-
+    public void setPolynomial(char poly, int[][] terms, int len )
+    {   
+        node n = new node();
+        head = n;
+        size++;
+        node pointer =  new node();
+        pointer = n;
+        for(int i = 0 ; i < len; i++ )
+        {   
+            String term = Integer.toString(terms[0][i]) + 'x' + '^' + Integer.toString(terms[1][i]);
+            pointer.setElement(term);
+            pointer.setNext(n);
         }
-
         
        
     }
+    public void display(){
+        System.out.print("[");
+        node n = new node();
+        n = head;
+        while(n!=null){
+            System.out.print(n.getElement());
+            if(n.getNext() != null){System.out.print(", ");}
+            n = n.getNext();
+        }
+        System.out.print("]");
+    }
     
 
-    public static void set(){
-        Scanner sc = new Scanner(System.in);
-        String operation = sc.nextLine();
-        char poly = sc.next().charAt(0);
-        String coof = sc.nextLine();
-    }
+   
     
 
 
     public static void main(String[] args) {
-        set();
+        
         Scanner sc = new Scanner(System.in);
-        String operation2 = sc.nextLine();
-        if(operation2.equals("set")){
-            set();
-        }
-        else if(operation2.equals("print")){
+        String operation = sc.nextLine();
+        char poly = sc.nextLine().charAt(0);
 
+       // if(operation == "set")
+        {
+        String input = sc.nextLine().replaceAll("\\[|\\]", "");
+        String[] in = input.split(", ");
+        int[] inputs = new int[in.length];
+        if(in.length == 1 && in[0].isEmpty())
+        {
+            inputs = new int[]{};
         }
 
         
