@@ -213,16 +213,12 @@ public class PolynomialSolver implements IPolynomialSolver{
     
 
 
-    public static void main(String[] args) {
-        
-        int flag = 0;int counter = 1;
+public static void main(String[] args) {
+        int flag = 0;
         //PolynomialSolver a = new PolynomialSolver();
-
         PolynomialSolver a = new PolynomialSolver();
         PolynomialSolver b = new PolynomialSolver();
         PolynomialSolver c = new PolynomialSolver();
-
-
         Scanner sc = new Scanner(System.in);
         while(flag == 0)
         {
@@ -235,8 +231,18 @@ public class PolynomialSolver implements IPolynomialSolver{
 
             if(operation.equals("print"))
             {
+            if(poly == 'A')
+            {
             System.out.print(a.print(poly));
-
+            }
+            if(poly == 'B')
+            {
+                System.out.print(b.print(poly));
+            }
+            if(poly == 'C')
+            {
+                System.out.print(c.print(poly));
+            }
             }
             if(operation.equals("set"))
             {
@@ -262,36 +268,47 @@ public class PolynomialSolver implements IPolynomialSolver{
                 powCounter--;
                 }
                 int[][] terms = new int[4][inputs.length];
-
+                if(poly == 'A')
+                {
                 for(int i = 0 ; i < inputs.length ; i++)
                 {
-                terms[counter][i] = inputs[i]; 
+                terms[1][i] = inputs[i]; 
                 }
+                }
+                if(poly == 'B')
+                {
+                    for(int i = 0 ; i < inputs.length ; i++)
+                    {
+                    terms[2][i] = inputs[i]; 
+                    }
+                }
+                if(poly == 'C')
+                {
+                    for(int i = 0 ; i < inputs.length ; i++)
+                {
+                terms[3][i] = inputs[i]; 
+                }
+                }
+                
                 for(int i = 0 ; i < inputs.length ; i++)
                 {
                     terms[0][i] = powers[i];
                 }
                 //terms[][] contains coefficents + thier powers
+                if(poly == 'A')
+                {
                 a.setPolynomial(poly, terms);
-
-
-                counter ++;
-            }
-
-
-
-    
-
-            //sc.close();
+                }
+                if(poly == 'B')
+                {
+                    b.setPolynomial(poly, terms);
+                }
+                if(poly == 'C')
+                {
+                    c.setPolynomial(poly, terms);
+                }           
+            }        //sc.close();
         }
-
-
-
-
-
-
-
     }  
-    
-    
+   
 }
