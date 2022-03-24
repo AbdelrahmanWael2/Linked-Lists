@@ -208,7 +208,7 @@ public class SingleLinkedList implements ILinkedList {
 
     public SingleLinkedList sublist(int fromIndex, int toIndex){
         SingleLinkedList li = new SingleLinkedList();
-        if(fromIndex > toIndex || fromIndex > size-1 || toIndex > size-1){error = true;}
+        if(fromIndex > toIndex || fromIndex > size-1 || toIndex > size-1 || fromIndex < 0 || toIndex < 0){error = true;}
         else{ 
             node n = new node();
             n = head;
