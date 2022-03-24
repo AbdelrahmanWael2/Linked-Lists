@@ -5,7 +5,7 @@ interface IPolynomialSolver {
     public void setPolynomial(char poly , int[][] terms, int len);
 }
 public class PolynomialSolver implements IPolynomialSolver{
-    class node {
+        class node {
         private int cof;
         private int exp;
         private node next;
@@ -56,14 +56,17 @@ public class PolynomialSolver implements IPolynomialSolver{
         head = null;
         size = 0;
     } 
-
+    
+    private PolynomialSolver a;
+    private PolynomialSolver b;
+    private PolynomialSolver c;
 
     public void add(int cof , int exp){
         node n = new node(cof,exp,null);
         node temp = new node();
-        temp = head;
+        temp = this.head;
         if(size == 0){
-            head = n;
+            this.head = n;
             size++;
         }
         else{
@@ -77,23 +80,80 @@ public class PolynomialSolver implements IPolynomialSolver{
         }
     }
 
-    public void setPolynomial(char poly, int[][] terms, int len )
+    public void setPolynomial(char poly, int[][] terms)
     {   
-        for(int i = 0 ; i < len; i++ )
-        {   
-            this.add(terms[0][i],terms[1][i]);
+        int len = terms[0].length;
+        switch(poly){
+            case 'A':
+                for(int i = 0 ; i < len; i++)
+                {   
+                    a.add(terms[1][i],terms[0][i]);
+                }
+            break;
+            case 'B':
+                for(int i = 0 ; i < len; i++)
+                {   
+                    b.add(terms[2][i],terms[0][i]);
+                }
+            break;
+            case 'C':
+                for(int i = 0 ; i < len; i++)
+                {   
+                    c.add(terms[3][i],terms[0][i]);
+                }
+            break;
+        }
+        
+    }
+
+    public String print(char poly){
+        String pol;
+        node n = new node();
+        switch(poly){
+            case 'A':
+                n = a.head;
+            break;
+            case 'B':
+                n = b.head;
+            break;
+            case 'C':
+                n = c.head;
+            break;
+        }
+        if(n == null){return "[]";}
+        else{
+        pol = n.getCof() + "x^" + n.getExp();
+        n = n.getNext();
+        while(n != null){
+                if(n.getCof() >= 0){
+                    pol=pol+ "+" + n.getCof();
+                    if(n.getExp() == 1){pol=pol+"x";}
+                    if(n.getExp() != 1 && n.getExp() != 0){pol = pol + "x^" +n.getExp();}
+                    n = n.getNext();
+                }
+                else{
+                    pol=pol + n.getCof();
+                    if(n.getExp() == 1){pol = pol + "x";}
+                    if(n.getExp() != 1 && n.getExp() != 0){pol = pol + "x^" + n.getExp();}
+                    n = n.getNext();
+                } 
+            }
+            return pol;
         }
     }
-    public void display(){
-        System.out.print("[");
-        node n = new node();
-        n = head;
-        while(n!=null){
-            System.out.print(n.getCof()+" "+n.getExp());
-            if(n.getNext() != null){System.out.print(", ");}
-            n = n.getNext();
+
+    public void clearPolynomial(char poly){
+        switch(poly){
+            case 'A':
+                a.head = null;
+            break;
+            case 'B':
+                b.head = null;
+            break;
+            case 'C':
+                c.head = null;
+            break;
         }
-        System.out.print("]");
     }
     
 
