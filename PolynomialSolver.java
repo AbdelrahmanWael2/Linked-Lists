@@ -6,16 +6,19 @@ interface IPolynomialSolver {
 }
 public class PolynomialSolver implements IPolynomialSolver{
     class node {
-        private Object element; 
+        private int cof;
+        private int exp;
         private node next;
         
         public node (){
-            this.element=null;
+            this.cof=0;
+            this.exp=0;
             this.next=null;
         }
     
-        public node(Object element, node next) {
-            this.element = element;
+        public node(int cof, int exp, node next) {
+            this.cof = cof;
+            this.exp = exp;
             this.next = next;
         }
         
@@ -25,18 +28,27 @@ public class PolynomialSolver implements IPolynomialSolver{
         }
         
         
-        public void setElement(String newElement){
-            this.element = newElement;
+        public void setCof(int cof){
+            this.cof = cof;
+        }
+
+        public void setExp(int exp){
+            this.exp=exp;
         }
         
-        public Object getElement(){
-         return this.element;
+        public int getCof(){
+         return this.cof;
         } 
+
+        public int getExp(){
+            return this.exp;
+        }
         
         public node getNext(){
          return this.next;
         } 
     }
+
     private node head;
     public static int size;
     public static boolean error = false;
@@ -45,28 +57,39 @@ public class PolynomialSolver implements IPolynomialSolver{
         size = 0;
     } 
 
+
+    public void add(int cof , int exp){
+        node n = new node(cof,exp,null);
+        node temp = new node();
+        temp = head;
+        if(size == 0){
+            head = n;
+            size++;
+        }
+        else{
+            
+            while(temp.getNext()!=null){
+                temp = temp.getNext();
+            }
+            temp.setNext(n);
+            size++;
+        
+        }
+    }
+
     public void setPolynomial(char poly, int[][] terms, int len )
     {   
-        node n = new node();
-        head = n;
-        size++;
-        node pointer =  new node();
-        pointer = n;
         for(int i = 0 ; i < len; i++ )
         {   
-            String term = Integer.toString(terms[0][i]) + 'x' + '^' + Integer.toString(terms[1][i]);
-            pointer.setElement(term);
-            pointer.setNext(n);
+            this.add(terms[0][i],terms[1][i]);
         }
-        
-       
     }
     public void display(){
         System.out.print("[");
         node n = new node();
         n = head;
         while(n!=null){
-            System.out.print(n.getElement());
+            System.out.print(n.getCof()+" "+n.getExp());
             if(n.getNext() != null){System.out.print(", ");}
             n = n.getNext();
         }
@@ -94,7 +117,7 @@ public class PolynomialSolver implements IPolynomialSolver{
             inputs = new int[]{};
         }
         else{
-         for(int i = 0; i < in.length; ++i)
+         for(int i = 0; i < in.length; i++)
              {
                 inputs[i] = Integer.parseInt(in[i]);   //inputs contains coefficients
              }
