@@ -1,11 +1,10 @@
 import java.util.Scanner;
-
-
+import java.math.*;
 interface IPolynomialSolver {
-    public void setPolynomial(char poly , int[][] terms, int len);
+    public void setPolynomial(char poly , int[][] terms);
 }
 public class PolynomialSolver implements IPolynomialSolver{
-        class node {
+    class node {
         private int cof;
         private int exp;
         private node next;
@@ -56,10 +55,12 @@ public class PolynomialSolver implements IPolynomialSolver{
         head = null;
         size = 0;
     } 
-    
-    private PolynomialSolver a;
-    private PolynomialSolver b;
-    private PolynomialSolver c;
+    //PolynomialSolver a = new PolynomialSolver();
+    //public static PolynomialSolver a ;
+    //public static PolynomialSolver b ;
+    //public static PolynomialSolver c ;
+    //PolynomialSolver b = new PolynomialSolver();
+    //PolynomialSolver c = new PolynomialSolver();
 
     public void add(int cof , int exp){
         node n = new node(cof,exp,null);
@@ -87,19 +88,19 @@ public class PolynomialSolver implements IPolynomialSolver{
             case 'A':
                 for(int i = 0 ; i < len; i++)
                 {   
-                    a.add(terms[1][i],terms[0][i]);
+                    add(terms[1][i],terms[0][i]);
                 }
             break;
             case 'B':
                 for(int i = 0 ; i < len; i++)
                 {   
-                    b.add(terms[2][i],terms[0][i]);
+                    add(terms[2][i],terms[0][i]);
                 }
             break;
             case 'C':
                 for(int i = 0 ; i < len; i++)
                 {   
-                    c.add(terms[3][i],terms[0][i]);
+                    add(terms[3][i],terms[0][i]);
                 }
             break;
         }
@@ -109,17 +110,18 @@ public class PolynomialSolver implements IPolynomialSolver{
     public String print(char poly){
         String pol;
         node n = new node();
-        switch(poly){
-            case 'A':
-                n = a.head;
-            break;
-            case 'B':
-                n = b.head;
-            break;
-            case 'C':
-                n = c.head;
-            break;
-        }
+        n = head;
+        // switch(poly){
+        //     case 'A':
+        //         n = a.head;
+        //     break;
+        //     case 'B':
+        //         n = b.head;
+        //     break;
+        //     case 'C':
+        //         n = c.head;
+        //     break;
+        // }
         if(n == null){return "[]";}
         else{
         pol = n.getCof() + "x^" + n.getExp();
@@ -143,18 +145,68 @@ public class PolynomialSolver implements IPolynomialSolver{
     }
 
     public void clearPolynomial(char poly){
-        switch(poly){
-            case 'A':
-                a.head = null;
-            break;
-            case 'B':
-                b.head = null;
-            break;
-            case 'C':
-                c.head = null;
-            break;
-        }
+        this.head = null;
+        // switch(poly){
+        //     case 'A':
+        //         a.head = null;
+        //     break;
+        //     case 'B':
+        //         b.head = null;
+        //     break;
+        //     case 'C':
+        //         c.head = null;
+        //     break;
+        // }
     }
+
+    public float evaluatePolynomial(char poly, float value){
+
+        double ans = 0;
+        node n = new node();
+        n = this.head;
+        // switch(poly){
+        //     case 'A':
+        //         n = a.head;
+        //     break;
+        //     case 'B':
+        //         n = b.head;
+        //     break;
+        //     case 'C':
+        //         n = c.head;
+        //     break;
+        // }
+        while(n != null){
+            ans =ans + n.getCof()*Math.pow((double)value,(double)n.getExp());
+        }
+        return (float)ans;
+    }
+
+    // int[][] add(char poly1, char poly2){
+    //     node n1 , n2 = new node();
+    //     switch(poly1){
+    //         case 'A':
+    //             n1 = a.head;
+    //         break;
+    //         case 'B':
+    //             n1 = b.head;
+    //         break;
+    //         case 'C':
+    //             n1 = c.head;
+    //         break;
+    //     }
+    //     switch(poly2){
+    //         case 'A':
+    //             n2 = a.head;
+    //         break;
+    //         case 'B':
+    //             n2 = b.head;
+    //         break;
+    //         case 'C':
+    //             n2 = c.head;
+    //         break;
+    //     }
+    //     int[][] ans = new int[][];
+    // }
     
 
    
@@ -163,48 +215,79 @@ public class PolynomialSolver implements IPolynomialSolver{
 
     public static void main(String[] args) {
         
-        Scanner sc = new Scanner(System.in);
-        String operation = sc.nextLine();
-        char poly = sc.nextLine().charAt(0);
+        int flag = 0;int counter = 1;
+        //PolynomialSolver a = new PolynomialSolver();
 
-       // if(operation == "set")
+        PolynomialSolver a = new PolynomialSolver();
+        PolynomialSolver b = new PolynomialSolver();
+        PolynomialSolver c = new PolynomialSolver();
+
+
+        Scanner sc = new Scanner(System.in);
+        while(flag == 0)
         {
-        String input = sc.nextLine().replaceAll("\\[|\\]", "");
-        String[] in = input.split(", ");
-        int[] inputs = new int[in.length];
-        if(in.length == 1 && in[0].isEmpty())
-        {
-            inputs = new int[]{};
-        }
-        else{
-         for(int i = 0; i < in.length; i++)
-             {
-                inputs[i] = Integer.parseInt(in[i]);   //inputs contains coefficients
-             }
+            String operation = sc.nextLine();
+            if(operation == null)
+            {
+                System.exit(0);
             }
-        int[] powers = new int[inputs.length];
-        int powCounter = inputs.length - 1 ;
-        for(int i = 0 ; i < inputs.length ; i++)  //making array of powers
-        {
-          powers[i] = powCounter;
-          powCounter--;
+            char poly = sc.nextLine().charAt(0);
+
+            if(operation.equals("print"))
+            {
+            System.out.print(a.print(poly));
+
+            }
+            if(operation.equals("set"))
+            {
+                String input = sc.nextLine().replaceAll("\\[|\\]", "");
+                String[] in = input.split(", ");
+                int[] inputs = new int[in.length];
+                if(in.length == 1 && in[0].isEmpty())
+                {
+                    System.out.print("Error");
+                    System.exit(0);
+                }
+                else{
+                    for(int i = 0; i < in.length; i++)
+                    {
+                        inputs[i] = Integer.parseInt(in[i]);   //inputs contains coefficients
+                    }
+                }
+                int[] powers = new int[inputs.length];
+                int powCounter = inputs.length - 1 ;
+                for(int i = 0 ; i < inputs.length ; i++)  //making array of powers
+                {
+                powers[i] = powCounter;
+                powCounter--;
+                }
+                int[][] terms = new int[4][inputs.length];
+
+                for(int i = 0 ; i < inputs.length ; i++)
+                {
+                terms[counter][i] = inputs[i]; 
+                }
+                for(int i = 0 ; i < inputs.length ; i++)
+                {
+                    terms[0][i] = powers[i];
+                }
+                //terms[][] contains coefficents + thier powers
+                a.setPolynomial(poly, terms);
+
+
+                counter ++;
+            }
+
+
+
+    
+
+            //sc.close();
         }
-        int[][] terms = new int[2][inputs.length];
-       
-        for(int i = 0 ; i < inputs.length ; i++)
-        {
-          terms[0][i] = inputs[i]; 
-        }
-        for(int i = 0 ; i < inputs.length ; i++)
-        {
-            terms[1][i] = powers[i];
-        }
-        //terms[][] contains coefficents + thier powers
-        PolynomialSolver linked = new PolynomialSolver();
-        
-        linked.setPolynomial(poly, terms, inputs.length); //set the linkedlist
-        linked.display();
-        }
+
+
+
+
 
 
 
