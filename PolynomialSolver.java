@@ -93,8 +93,39 @@ public class PolynomialSolver implements IPolynomialSolver{
         {
             inputs = new int[]{};
         }
-
+        else{
+         for(int i = 0; i < in.length; ++i)
+             {
+                inputs[i] = Integer.parseInt(in[i]);   //inputs contains coefficients
+             }
+            }
+        int[] powers = new int[inputs.length];
+        int powCounter = inputs.length - 1 ;
+        for(int i = 0 ; i < inputs.length ; i++)  //making array of powers
+        {
+          powers[i] = powCounter;
+          powCounter--;
+        }
+        int[][] terms = new int[2][inputs.length];
+       
+        for(int i = 0 ; i < inputs.length ; i++)
+        {
+          terms[0][i] = inputs[i]; 
+        }
+        for(int i = 0 ; i < inputs.length ; i++)
+        {
+            terms[1][i] = powers[i];
+        }
+        //terms[][] contains coefficents + thier powers
+        PolynomialSolver linked = new PolynomialSolver();
         
+        linked.setPolynomial(poly, terms, inputs.length); //set the linkedlist
+        linked.display();
+        }
+
+
+
+    }  
     
-    }
+    
 }
