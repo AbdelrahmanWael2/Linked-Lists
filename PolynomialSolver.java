@@ -4,55 +4,12 @@ interface IPolynomialSolver {
     public void setPolynomial(char poly , int[][] terms);
 }
 public class PolynomialSolver implements IPolynomialSolver{
+
     SingleLinkedList a = new SingleLinkedList();
     SingleLinkedList b = new SingleLinkedList();
     SingleLinkedList c = new SingleLinkedList();
-    
     public void setPolynomial(char poly, int[][] terms)
     {   
-        class node {
-            private int cof;
-            private int exp;
-            private node next;
-            
-            public node (){
-                this.cof=0;
-                this.exp=0;
-                this.next=null;
-            }
-        
-            public node(int cof, int exp, node next) {
-                this.cof = cof;
-                this.exp = exp;
-                this.next = next;
-            }
-            
-            
-            public void setNext(node nextNode){
-                this.next = nextNode;
-            }
-            
-            
-            public void setCof(int cof){
-                this.cof = cof;
-            }
-    
-            public void setExp(int exp){
-                this.exp=exp;
-            }
-            
-            public int getCof(){
-             return this.cof;
-            } 
-    
-            public int getExp(){
-                return this.exp;
-            }
-            
-            public node getNext(){
-             return this.next;
-            } 
-        }
         int len = terms[0].length;
         switch(poly){
             case 'A':
@@ -82,7 +39,7 @@ public class PolynomialSolver implements IPolynomialSolver{
         SingleLinkedList n = new SingleLinkedList();
         switch(poly){
             case 'A':  
-                    n = a.head;
+                    n = a;
             break;
             case 'B':
                     n = b;
@@ -93,90 +50,99 @@ public class PolynomialSolver implements IPolynomialSolver{
         }
         if(n == null){return "[]";}
         else{
-            if(n.getCof() == 1){
-                if(n.getExp() != 0){
-                    pol = "x^" + n.getExp();
+            if(n.head.getCof() == 1){
+                if(n.head.getExp() != 0){
+                    pol = "x^" + n.head.getExp();
                 }
                 else{pol = "1";}
              }
-             else if(n.getCof() == -1){
-                if(n.getExp() != 0){
-                    pol = "-x^" + n.getExp();
+             else if(n.head.getCof() == -1){
+                if(n.head.getExp() != 0){
+                    pol = "-x^" + n.head.getExp();
                 }
                 else{pol = "-1";}
              }
-             else if(n.getCof() == 0){
+             else if(n.head.getCof() == 0){
                 pol = "" ;
              }
-             else if(n.getExp() == 0){
-                 pol = Integer.toString(n.getCof());
+             else if(n.head.getExp() == 0){
+                 pol = Integer.toString(n.head.getCof());
              }
-             else if(n.getExp() == 1){
-                 pol =  n.getCof() + "x";
+             else if(n.head.getExp() == 1){
+                 pol =  n.head.getCof() + "x";
              }
+            //  else if(n.head.getExp() == n.size){
+            //     pol = n.head.getCof() + ;
+            //  }
              else{
-                 pol = n.getCof() +"+"+ "x^" + n.getExp();
+                 pol = n.head.getCof() + "x^" + n.head.getExp();
              }
-             n= n.getNext();
-             while(n != null){
-                if(n.getCof() == 1){
-                    if(n.getExp() != 0){
-                        pol = pol+"+x^" + n.getExp();
+             n.head= n.head.getNext();
+             while(n.head != null){
+                if(n.head.getCof() == 1){
+                    if(n.head.getExp() != 0){
+                        pol = pol+"+x^" + n.head.getExp();
                     }
                     else{pol =pol+ "1";}
                  }
-                 else if(n.getCof() == -1){
-                    if(n.getExp() != 0){
-                        pol =pol+ "-x^" + n.getExp();
+                 else if(n.head.getCof() == -1){
+                    if(n.head.getExp() != 0){
+                        pol =pol+ "-x^" + n.head.getExp();
                     }
                     else{pol =pol+ "-1";}
                  }
-                 else if(n.getCof() == 0){
+                 else if(n.head.getCof() == 0){
                     pol =pol+ "" ;
                  }
-                 if(n.getCof() > 0){
-                    if(n.getExp() == 0){
-                        pol = pol + "+" + n.getCof();
+                 if(n.head.getCof() > 0){
+                    if(n.head.getExp() == 0){
+                        pol = pol + "+" + n.head.getCof();
                     }
-                    else if(n.getExp() == 1){
-                        pol = pol+ "+" +  n.getCof() + "x";
+                    else if(n.head.getExp() == 1){
+                        pol = pol+ "+" +  n.head.getCof() + "x";
                     }
                      else{
-                         pol = pol+"+"+n.getCof() + "x^" + n.getExp();
+                         pol = pol+"+"+n.head.getCof() + "x^" + n.head.getExp();
                      }
                  }
                  else{
-                    if(n.getExp() == 0){
-                        pol = pol  + n.getCof();
+                    if(n.head.getExp() == 0){
+                        pol = pol  + n.head.getCof();
                     }
-                    else if(n.getExp() == 1){
-                        pol = pol+  n.getCof() + "x";
+                    else if(n.head.getExp() == 1){
+                        pol = pol+  n.head.getCof() + "x";
                     }
                      else{
-                         pol = pol+n.getCof() + "x^" + n.getExp();
+                         pol = pol+n.head.getCof() + "x^" + n.head.getExp();
                      }
                  }
                  
-                 n= n.getNext();
+                 n.head= n.head.getNext();
                  
              } 
         }
         return pol;
     }
 
-    public void clearPolynomial(char poly){
-        head = null;
-
-    }
+   
 
     public float evaluatePolynomial(char poly, float value){
 
         double ans = 0;
-        node n = new node();
-        n = head;
-
+        SingleLinkedList n = new SingleLinkedList();
+        switch(poly){
+            case 'A':  
+                    n = a;
+            break;
+            case 'B':
+                    n = b;
+            break;
+            case 'C':  
+                    n = c;
+            break;
+        }
         while(n != null){
-            ans =ans + n.getCof()*Math.pow((double)value,(double)n.getExp());
+            ans =ans + n.head.getCof()*Math.pow((double)value,(double)n.head.getExp());
         }
         return (float)ans;
     }
@@ -186,27 +152,24 @@ public class PolynomialSolver implements IPolynomialSolver{
     //     int[][] ans = new int[][];
     // }
     
-
-   
-    
-
-
-    public static void main(String[] args) {
-        int flag = 0;
+public static void main(String[] args) {
+    int flag = 0;
+        //PolynomialSolver a = new PolynomialSolver();
         PolynomialSolver a = new PolynomialSolver();
-        
         PolynomialSolver b = new PolynomialSolver();
         PolynomialSolver c = new PolynomialSolver();
         Scanner sc = new Scanner(System.in);
         while(flag == 0)
         {
-            String operation = sc.nextLine();
-            if(operation == null)
+            String operation = sc.next();
+            if(operation.equals(null))
             {
                 System.exit(0);
             }
-            char poly = sc.nextLine().charAt(0);
+            char poly = sc.next().charAt(0);
 
+            
+            
             if(operation.equals("print"))
             {
             if(poly == 'A')
@@ -224,7 +187,7 @@ public class PolynomialSolver implements IPolynomialSolver{
             }
             if(operation.equals("set"))
             {
-                String input = sc.nextLine().replaceAll("\\[|\\]", "");
+                String input = sc.next().replaceAll("\\[|\\]", "");
                 String[] in = input.split(",");
                 int[] inputs = new int[in.length];
                 if(in.length == 1 && in[0].isEmpty())
@@ -287,13 +250,16 @@ public class PolynomialSolver implements IPolynomialSolver{
                 }           
             }        //sc.close();
         }
-    }  
-    
-    
+    }
 }
+   
+    
 
 
-class SingleLinkedList{
+
+
+
+class SingleLinkedList {
     class node {
         private int cof;
         private int exp;
@@ -338,8 +304,8 @@ class SingleLinkedList{
         } 
     }
 
-    private node head;
-    private int size;
+    public node head;
+    public int size;
     public static boolean error = false;
     public SingleLinkedList() {
         head = null;
@@ -366,5 +332,4 @@ class SingleLinkedList{
         
         }
     }
-
-} 
+}
