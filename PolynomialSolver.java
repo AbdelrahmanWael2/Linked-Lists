@@ -12,6 +12,7 @@ public class PolynomialSolver implements IPolynomialSolver{
     SingleLinkedList b = new SingleLinkedList();
     SingleLinkedList c = new SingleLinkedList();
     SingleLinkedList r = new SingleLinkedList();
+    static boolean error = false;
     public void setPolynomial(char poly, int[][] terms)
     {   
         int len = terms[0].length;
@@ -63,7 +64,36 @@ public class PolynomialSolver implements IPolynomialSolver{
         }
         if(n.head == null){return "Error";}
         else{
-            if(n.head.getCof() == 1){
+            if(n.head.getCof() == 0){
+                if(n.head.getNext() == null){pol = "0";}
+                else{
+                n.head= n.head.getNext();
+                if(n.head.getCof() == 1){
+                    if(n.head.getExp() != 0){
+                        pol = "x^" + n.head.getExp();
+                    }
+                    else{pol = "1";}
+                 }
+                 else if(n.head.getCof() == -1){
+                    if(n.head.getExp() != 0){
+                        pol = "-1x^" + n.head.getExp();
+                    }
+                    else{pol = "-1";}
+                 }
+                 
+                 else if(n.head.getExp() == 0){
+                     pol = Integer.toString(n.head.getCof());
+                 }
+                 else if(n.head.getExp() == 1){
+                     pol =  n.head.getCof() + "x";
+                 }
+                
+                 else{
+                     pol = n.head.getCof() + "x^" + n.head.getExp();
+                 }
+                }
+            }
+            else if(n.head.getCof() == 1){
                 if(n.head.getExp() != 0){
                     pol = "x^" + n.head.getExp();
                 }
@@ -71,25 +101,22 @@ public class PolynomialSolver implements IPolynomialSolver{
              }
              else if(n.head.getCof() == -1){
                 if(n.head.getExp() != 0){
-                    pol = "-x^" + n.head.getExp();
+                    pol = "-1x^" + n.head.getExp();
                 }
                 else{pol = "-1";}
              }
-             else if(n.head.getCof() == 0){
-                pol = "" ;
-             }
+             
              else if(n.head.getExp() == 0){
                  pol = Integer.toString(n.head.getCof());
              }
              else if(n.head.getExp() == 1){
                  pol =  n.head.getCof() + "x";
              }
-            //  else if(n.head.getExp() == n.size){
-            //     pol = n.head.getCof() + ;
-            //  }
+            
              else{
                  pol = n.head.getCof() + "x^" + n.head.getExp();
              }
+             
              n.head= n.head.getNext();
              while(n.head != null){
                 if(n.head.getCof() == 1){
@@ -174,6 +201,7 @@ public class PolynomialSolver implements IPolynomialSolver{
             ans =ans + n.head.getCof()*Math.pow((double)value,(double)n.head.getExp());
             n.head = n.head.getNext();
         }
+        if(n.size == 0 ){error = true;}
         return (float)ans;
     }
 
@@ -378,6 +406,13 @@ public class PolynomialSolver implements IPolynomialSolver{
             }
             count--;
         }
+
+        // while(finalAns[1][0] == 0){
+        //     for(int i = 0 ; i< finalAns[0].length ; i++){
+        //         int temp = finalAns[1][i];
+        //         finalAns
+        //     }
+        // }
         
         return finalAns;
 
@@ -535,7 +570,9 @@ public static void main(String[] args) {
             value = sc.nextFloat();
             float ans;
             ans = r.evaluatePolynomial(polyE, value);
-            System.out.print((int)ans); 
+            if(error == true){System.out.print("Error");}
+            else{System.out.print((int)ans);}
+             
         }
         if(operation.equals("clear"))
         {
